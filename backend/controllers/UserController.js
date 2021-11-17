@@ -123,5 +123,23 @@ module.exports = class UserController {
     }
 
 
+    static async acess(req,res){
+
+        //validar se usuário já está logado
+        const token = getToken(req)
+
+        if (token) {
+            const userToken = await getUserByToken(token)
+
+            if (userToken) {
+                res.status(422).json({ message: `Usuário do id ${userToken._id} já está logado!` })
+                return
+            }
+
+        }
+
+    }
+
+
 
 }
