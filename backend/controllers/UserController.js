@@ -1,6 +1,7 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const createUserToken = require('../helpers/create-user-token')
 
 
 module.exports = class UserController {
@@ -57,6 +58,7 @@ module.exports = class UserController {
 
         try {
             const newUser = await user.save()
+            await createUserToken(newUser,req,res)
             res.status(200).json({ message: newUser })
 
         } catch (error) {
