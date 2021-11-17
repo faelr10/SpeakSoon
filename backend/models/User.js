@@ -17,10 +17,6 @@ const User = mongoose.model(
                 type: String,
                 required: true
             },
-            phone: {
-                type: String,
-                required: true
-            }
         },
         { timestamps: true }
     )
