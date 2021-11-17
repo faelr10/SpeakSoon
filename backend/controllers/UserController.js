@@ -103,21 +103,16 @@ module.exports = class UserController {
         const token = getToken(req)
 
         if (token) {
-
             const userToken = await getUserByToken(token)
 
-            if (userToken && userToken.email === email) {
-
-                res.status(422).json({ message: 'Usuário já está logado!' })
+            if (userToken && userToken.email !== email) {
+                res.status(422).json({ message: 'Já existe um usuário logado! Faça logout antes de realizar novo login!' })
                 return
-
             }
 
         }
 
-
-
-
+        //Autenticando usuário por meio da criação do token
         try {
             await createUserToken(user, req, res)
         } catch (error) {
