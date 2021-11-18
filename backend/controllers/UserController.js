@@ -123,7 +123,7 @@ module.exports = class UserController {
     }
 
 
-    static async acess(req,res){
+    static async acess(req, res) {
 
         //validar se usuário já está logado
         const token = getToken(req)
@@ -138,6 +138,11 @@ module.exports = class UserController {
 
         }
 
+    }
+
+    static async dashboard(req, res) {
+        res.status(200).json({ message: `Ok` })
+        return
     }
 
 
