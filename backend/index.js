@@ -18,6 +18,8 @@ app.use(express.static('public'))
 //Routes
 const UserRoutes = require('./routes/UserRouter')
 app.use('/users',UserRoutes)
+const TalkRoutes = require('./routes/TalkRouter')
+app.use('/talk',TalkRoutes)
 
 
 
