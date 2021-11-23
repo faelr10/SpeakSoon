@@ -9,22 +9,30 @@ module.exports = class TalkController {
 
     static async newTalk(req, res) {
 
-        const token = getToken(req)
-        const user1 = getUserByToken(token)
-        const idTalk = JSON.stringify(user1)
+       
+        // const idTalk = JSON.stringify(user1._id)
+        const idTalk = req.params.id
 
-        const talk = new Talk({
-            idTalk
-        })
+        const verifyTalk = await Talk.findOne({idTalk:idTalk})
 
-        try {
-            await talk.save()
-            res.status(200).json({ message: "New Talk" })
-
-        } catch (error) {
-            res.status(500).json({ message: error })
-            return
+        if(verifyTalk){
+            res.status(200).json({ message: "Redirecionando para conversa" })
+        }else{
+            const talk = new Talk({
+                idTalk
+            })
+    
+            try {
+                await talk.save()
+                res.status(200).json({ message: "New Talk" })
+    
+            } catch (error) {
+                res.status(500).json({ message: error })
+                return
+            }
         }
+
+        
 
     }
 
@@ -33,6 +41,7 @@ module.exports = class TalkController {
         const {message,idUser} = req.body
         const idTalk = req.params.id
         const talk = await Talk.findOne({ idTalk: idTalk })
+        const msg = [message,idUser]
 
         if(!message){
             res.status(422).json({ message: 'Preencha o campo mensagem' })
@@ -44,14 +53,10 @@ module.exports = class TalkController {
             return
         }
 
-        const msg = [message,idUser]
-
-
         if (!talk) {
-            res.status(422).json({ message: 'Essa conversa não existe no sistema!' })
+            res.status(422).json({ message: idTalk })
             return
         }
-
 
         try {
             // returns updated data
@@ -75,9 +80,13 @@ module.exports = class TalkController {
         const idTalk = req.params.id
         const talk = await Talk.findOne({ idTalk: idTalk })
 
-        const allMsg = talk.messages
+        const token = getToken(req)
+        const user = await getUserByToken(token)
 
-        res.status(200).json({ message: allMsg })
+        const allMsg = talk.messages
+        const userId = user.name
+
+        res.status(200).json({ message: allMsg,userId })
         return
 
     }

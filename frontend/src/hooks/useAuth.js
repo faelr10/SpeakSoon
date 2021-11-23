@@ -104,9 +104,69 @@ export default function useAuth() {
 
     }
 
+    async function logout() {
 
+        setAuthenticated(false)
+        localStorage.removeItem('token')
+        api.defaults.headers.Authorization = undefined
+        navigate('/')
 
+    }
 
-    return { authenticated, register,login }
+    async function newTalk(idTalk){
+
+        try {
+
+            //Registrar usuário  -- fazendo uma requisição para a api através da rota de registro e retornando resposta da api
+            await api.get(`/talk/newTalk/${idTalk}`).then((response) => {
+                return response.data
+            })
+
+            console.log("ok")
+
+            navigate(`/showTalk/${idTalk}`)
+
+        } catch (error) {
+
+            // //definindo text e tipo da flash message em caso de error
+            // msgText = error.response.data.message
+            // msgType = 'error'
+        }
+    }
+
+    async function newMessage(msg,idUrl){
+
+        try {
+
+            //Registrar usuário  -- fazendo uma requisição para a api através da rota de registro e retornando resposta da api
+            await api.patch(`/talk/newTalk/${idUrl}`,msg).then((response) => {
+                return response.data
+            })
+
+        } catch (error) {
+
+            // //definindo text e tipo da flash message em caso de error
+            // msgText = error.response.data.message
+            // msgType = 'error'
+        }
+        
+    }
+
+    async function addFriend(idFriend){
+
+        try{
+            await api.patch(`/users/newFriend/`,idFriend).then((response)=>{
+                return response.data
+            })
+        }catch(error){
+
+        }
+
+    }
+
+    
+
+    
+    return { authenticated, register,login,logout,newTalk,newMessage,addFriend }
 
 }

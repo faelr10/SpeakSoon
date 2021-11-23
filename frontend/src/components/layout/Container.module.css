@@ -1,9 +1,8 @@
 .container {
+  height: 100%;
   display: flex;
-    min-height: 77vh;
-    padding: 1em 2em 3em;
-    max-width: 1200px;
-    margin: 0 auto;
-    justify-content: center;
+  min-height: 43rem;
+  margin-top: 30px;
+  justify-content: center;
   }
   

@@ -10,7 +10,7 @@ module.exports = class UserController {
 
     static async register(req, res) {
 
-        const { name, email, password, confirmpassword } = req.body
+        const { name, email, phone, password, confirmpassword } = req.body
 
         //Validação dos campos do formulário
         if (!name) {
@@ -20,6 +20,11 @@ module.exports = class UserController {
 
         if (!email) {
             res.status(422).json({ message: 'O email é obrigatório!' })
+            return
+        }
+
+        if (!phone) {
+            res.status(422).json({ message: 'O telefone é obrigatório!' })
             return
         }
 
@@ -55,6 +60,7 @@ module.exports = class UserController {
         const user = new User({
             name,
             email,
+            phone,
             password: passwordHash
         })
 
@@ -141,7 +147,53 @@ module.exports = class UserController {
     }
 
     static async dashboard(req, res) {
-        res.status(200).json({ message: `Ok` })
+
+
+        const token = getToken(req)
+        const userToken = await getUserByToken(token)
+
+        res.status(200).json(userToken)
+        return
+
+    }
+
+
+    static async newFriend(req, res) {
+
+        const idFriend = req.body
+
+        const token = getToken(req)
+        const userToken = await getUserByToken(token)
+
+
+        const userFriend = await User.findOne({ phone: idFriend.phone })
+        userToken.friends.push([userFriend.name, userFriend.phone])
+
+        const updateUser = await User.findOneAndUpdate(
+            { _id: userToken._id },
+            { $set: userToken },
+            { new: true },
+        )
+
+        res.status(200).json(updateUser.friends)
+        return
+
+    }
+
+    static async searchUser(req,res){
+        const phone = req.params
+
+        const user = await User.findOne({phone:phone.id})
+
+        if(user){
+            res.status(200).json(user)
+        }else{
+            res.status(200).json()
+        }
+
+
+        
+
         return
     }
 

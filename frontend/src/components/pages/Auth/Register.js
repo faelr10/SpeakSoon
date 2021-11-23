@@ -15,10 +15,12 @@ function Register() {
         setUser({ ...user, [e.target.name]: e.target.value })
     }
 
-    function handleSubmit(e){
+    function handleSubmit(e) {
         e.preventDefault()
         register(user)
     }
+
+    console.log(user)
 
     return (
 
@@ -45,6 +47,14 @@ function Register() {
                 />
 
                 <Input
+                    text="Telefone"
+                    type="text"
+                    name="phone"
+                    placeholder="Digite seu número de telefone"
+                    handleOnChange={handleChange}
+                />
+
+                <Input
                     text="Senha"
                     type="password"
                     name="password"
@@ -61,7 +71,7 @@ function Register() {
                 />
 
                 <input className={styles.inputButton} type="submit" value="Cadastrar" />
-                
+
             </form>
 
         </section>

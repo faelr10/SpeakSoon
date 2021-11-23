@@ -17,6 +17,13 @@ const User = mongoose.model(
                 type: String,
                 required: true
             },
+            phone: {
+                type: String,
+                required: true
+            },
+            friends: {
+                type:Array,
+            },
         },
         { timestamps: true }
     )
