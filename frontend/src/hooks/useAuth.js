@@ -54,7 +54,9 @@ export default function useAuth() {
         try {
 
             //Registrar usuário  -- fazendo uma requisição para a api através da rota de registro e retornando resposta da api
-            const data = await api.post('/users/register', user).then((response) => {
+            const data = await api.post('/users/register', user,{
+                
+            }).then((response) => {
                 return response.data
             })
 

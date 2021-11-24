@@ -52,6 +52,14 @@ module.exports = class UserController {
             return
         }
 
+        let image = ''
+
+        if(req.file){
+            image = req.file.filename
+        }
+
+        console.log(image)
+
         //Criptografando senha
         const salt = await bcrypt.genSalt(12)
         const passwordHash = await bcrypt.hash(password, salt)
@@ -61,6 +69,7 @@ module.exports = class UserController {
             name,
             email,
             phone,
+            image,
             password: passwordHash
         })
 
@@ -167,32 +176,35 @@ module.exports = class UserController {
 
 
         const userFriend = await User.findOne({ phone: idFriend.phone })
-        userToken.friends.push([userFriend.name, userFriend.phone])
 
-        const updateUser = await User.findOneAndUpdate(
-            { _id: userToken._id },
-            { $set: userToken },
-            { new: true },
-        )
+        if (userFriend) {
+            userToken.friends.push([userFriend.name, userFriend.phone, userFriend.image])
 
-        res.status(200).json(updateUser.friends)
-        return
+            const updateUser = await User.findOneAndUpdate(
+                { _id: userToken._id },
+                { $set: userToken },
+                { new: true },
+            )
+
+            res.status(200).json(updateUser.friends)
+            return
+        }
 
     }
 
-    static async searchUser(req,res){
+    static async searchUser(req, res) {
         const phone = req.params
 
-        const user = await User.findOne({phone:phone.id})
+        const user = await User.findOne({ phone: phone.id })
 
-        if(user){
+        if (user) {
             res.status(200).json(user)
-        }else{
+        } else {
             res.status(200).json()
         }
 
 
-        
+
 
         return
     }

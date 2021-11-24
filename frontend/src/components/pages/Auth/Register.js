@@ -11,13 +11,25 @@ function Register() {
     const [user, setUser] = useState({})
     const { register } = useContext(Context)
 
+
     function handleChange(e) {
         setUser({ ...user, [e.target.name]: e.target.value })
     }
 
-    function handleSubmit(e) {
+    function onFileChange(e) {
+        setUser({ ...user, [e.target.name]: e.target.files[0] })
+      }
+
+
+    async function handleSubmit(e) {
         e.preventDefault()
-        register(user)
+
+        const formData = new FormData()
+        const userFormData = await Object.keys(user).forEach((key)=>{
+            formData.append(key,user[key])
+        })
+
+        register(formData)
     }
 
     console.log(user)
@@ -28,7 +40,7 @@ function Register() {
 
             <p>Registre-se</p>
 
-            <form onSubmit={handleSubmit}>
+            <form enctype="multipart/form-data" id="meuForm" onSubmit={handleSubmit}>
 
                 <Input
                     text="Nome"
@@ -68,6 +80,14 @@ function Register() {
                     name="confirmpassword"
                     placeholder="Confirme sua senha"
                     handleOnChange={handleChange}
+                />
+
+
+                <Input
+                    text="Imagem"
+                    type="file"
+                    name="image"
+                    handleOnChange={onFileChange}
                 />
 
                 <input className={styles.inputButton} type="submit" value="Cadastrar" />

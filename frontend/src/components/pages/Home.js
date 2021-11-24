@@ -2,10 +2,20 @@ import Login from '../pages/Auth/Login'
 import Register from '../pages/Auth/Register'
 import styles from './Home.module.css'
 
+
+
 function Home() {
+
+    const token = localStorage.getItem('token')
+
+    console.log(token)
+
+    
     return (
 
         <section>
+            
+            
             <div className={styles.containerAcess}>
                
                 <div className={styles.containerLogin}>

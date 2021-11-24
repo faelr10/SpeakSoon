@@ -1,6 +1,5 @@
 import api from '../../utils/api'
 import styles from './Dashboard.module.css'
-import User from '../../assets/img/user.png'
 import Input from "../form/Input"
 
 
@@ -105,7 +104,7 @@ function Dashboard() {
 
                     <div className={styles.leftUser}>
 
-                        <div className={styles.leftUserPhoto}><img src={User} alt="" /></div>
+                        <div className={styles.leftUserPhoto}><img src={`${process.env.REACT_APP_API}/images/users/${user.image}`} alt="" /></div>
                         <div className={styles.leftUserName}>{user.name}</div>
                         <div className={styles.leftUserStatus}>Dev FullStack</div>
 
@@ -118,7 +117,7 @@ function Dashboard() {
                         {
                             friends.map((itens, index) => (
                                 <div key={index} className={styles.leftContactsContainer}  >
-                                    <div className={styles.leftContactsPhoto}><img src={User} alt="" /></div>
+                                    <div className={styles.leftContactsPhoto}><img src={`${process.env.REACT_APP_API}/images/users/${itens[2]}`} alt="" /></div>
                                     <div className={styles.leftContactsName} key={index} onMouseMove={handleChange} onClick={handleClick} name="newIdTalk" id={itens[1]} > {itens[0]} </div><br />
                                 </div>
                             ))
@@ -134,7 +133,7 @@ function Dashboard() {
 
                     <div className={styles.containerRightPhotoUser}>
 
-                        <img src={User} alt="" />
+                        <img src={`${process.env.REACT_APP_API}/images/users/${user.image}`} alt="" />
 
                     </div>
 
@@ -163,7 +162,7 @@ function Dashboard() {
                     <div className={styles.containerRightResult}>
                         {search
                             ? <div className={styles.cardSearch}>
-                                <img src={User} alt="" />
+                                <img src={`${process.env.REACT_APP_API}/images/users/${search.image}`} alt="" />
                                 <p>{search.name}</p>
                                 <p>{search.phone}</p>
                                 <input onClick={handleNewFriend} type="submit" value="Adicionar" />
