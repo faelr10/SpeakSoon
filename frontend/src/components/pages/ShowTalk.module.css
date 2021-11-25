@@ -60,6 +60,12 @@
     width: 25%;
     border-radius: 50%;
 }
+.leftUserPhoto img{
+    width: 100%;
+    height: 100%;
+    background-color: #E1EAF1;
+    border-radius: 50%;
+}
 
 .leftUserName{
     height: 20%;
@@ -102,8 +108,7 @@
     height: 3rem;
     justify-content: center;
     align-items: center;
-}
-.leftContactsContainer{
+}.leftContactsContainer{
     display: flex;
     background-color: #FFFFFF;
     width: 90%;
@@ -115,7 +120,14 @@
     width: 21%;
     height: 90%;
     border-radius: 50%;
-    background-color: #d4d4d4;
+    background-color: #E1EAF1;
+    border: 1px solid #E1EAF1;
+}
+.leftContactsPhoto img{
+    width: 100%;
+    height: 100%;
+    background-color: #E1EAF1;
+    border-radius: 50%;
 }
 .leftContactsName{
     display: flex;
@@ -124,16 +136,24 @@
     align-items: center;
     padding-left: 10px;
     background-color: #FFFFFF;
+    cursor:pointer;
+    transition: 0.3s;
+}
+.leftContactsName:hover{
+    background-color: #E1EAF1;
 }
 
 .containerRightMensagens{
     width: 90%;
     background-color: rgba(0, 0, 0, 0);
     padding-top: 20px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    
+    
 }
 .containerRightMensagens p{
     background-color: rgba(0, 0, 0, 0);
+    max-width: 20rem;
 
 }
 

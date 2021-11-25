@@ -121,12 +121,18 @@
     height: 40%;
     width: 25%;
     border-radius: 50%;
+    transition: 0.5s;
 }
 .leftUserPhoto img{
     width: 100%;
     height: 100%;
     background-color: #E1EAF1;
     border-radius: 50%;
+}
+.leftUserPhoto:hover{
+    height: 60%;
+    width: 45%;
+   
 }
 
 .leftUserName{

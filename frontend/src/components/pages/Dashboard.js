@@ -6,17 +6,20 @@ import Input from "../form/Input"
 import { useState, useEffect } from 'react'
 import { useContext } from 'react'
 import { Context } from '../../context/UserContext'
-// import ShowTalk from './ShowTalk'
+
 
 function Dashboard() {
-    const { authenticated, logout,addFriend } = useContext(Context)
+    const { authenticated, logout,addFriend,newTalk } = useContext(Context)
+
     const [user, setUser] = useState({ message: [''] })
     const [token] = useState(localStorage.getItem('token') || '')
-    const { newTalk } = useContext(Context)
     const [newIdTalk, setNewIdTalk] = useState()
     const [friends, setFriends] = useState([''])
     const [newPhone, setNewPhone] = useState({ message: [''] })
     const [search, setSearch] = useState({ message: [''] })
+    const [consulta, setConsulta] = useState('true')
+    const [status, setStatus] = useState(false)
+    
 
     let idTalk
 
@@ -25,10 +28,6 @@ function Dashboard() {
     } else {
         idTalk = newIdTalk + user.phone
     }
-
-    console.log(newIdTalk)
-
-
 
     useEffect(() => {
         api
@@ -40,12 +39,13 @@ function Dashboard() {
             .then((response) => {
                 setUser(response.data)
                 setFriends(response.data.friends)
+                setConsulta(false)
+                setStatus(true)
             })
-    }, [token])
+    }, [consulta,token])
 
 
     useEffect(() => {
-
         api
             .get(`/users/searchUser/${newPhone.idFriend}`, {
                 headers: {
@@ -56,7 +56,7 @@ function Dashboard() {
                 setSearch(response.data)
             })
 
-    }, [newPhone.idFriend, token])
+    }, [status,newPhone.idFriend, token])
 
 
     function handleChange(e) {
@@ -73,9 +73,11 @@ function Dashboard() {
         setNewPhone({ ...newPhone, [e.target.name]: e.target.value })
     }
 
-    function handleNewFriend(e){
+    async function handleNewFriend(e){
         e.preventDefault()
-        addFriend(search)
+        console.log(search)
+        addFriend(search,token)
+        setConsulta(true)
     }
 
     return (

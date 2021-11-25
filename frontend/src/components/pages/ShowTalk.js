@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 
 
 
+
 function ShowTalk({ idTalk }) {
 
     //importando função de criar ou exibir conversa
@@ -38,14 +39,26 @@ function ShowTalk({ idTalk }) {
     //pegar valor que está sendo passado pela url
     const id = useParams()
 
-    const [newIdTalk, setNewIdTalk] = useState({})
+    const [friends, setFriends] = useState([''])
+    const [user, setUser] = useState([''])
+    const [newIdTalk, setNewIdTalk] = useState()
 
+    const [status, setStatus] = useState(false)
 
     //criando array com mensagem e usuário para enviar
     const mensagemNew = {
         message: newMsg.message,
         idUser
     }
+
+    let otheridTalk
+
+    if (user.phone > newIdTalk) {
+        otheridTalk = user.phone + newIdTalk
+    } else {
+        otheridTalk = newIdTalk + user.phone
+    }
+
 
 
     //--------------------------------------------------------------------------------------    
@@ -60,10 +73,12 @@ function ShowTalk({ idTalk }) {
             })
             .then((response) => {
                 setMessage(response.data)
+                setFriends(response.data.friends)
+                setUser(response.data.user)
+                setStatus(false)
             })
 
-    })
-
+    }, [ id.id,status, token])
 
 
 
@@ -83,11 +98,16 @@ function ShowTalk({ idTalk }) {
         newMessage(mensagemNew, id.id)
         setAlter({ ...alter, [e.target.name]: e.target.value })
         setValue('')
+        setStatus(true)
+    }
+
+    function handleChangeTalk(e) {
+        setNewIdTalk(e.target.id)
     }
 
     function handleClick(e) {
         e.preventDefault()
-        newTalk(newIdTalk.newIdTalk)
+        newTalk(otheridTalk)
     }
 
 
@@ -111,50 +131,27 @@ function ShowTalk({ idTalk }) {
 
                     <div className={styles.leftUser}>
 
-                        <div className={styles.leftUserPhoto}></div>
-                        <div className={styles.leftUserName}>Rafael</div>
+                        <div className={styles.leftUserPhoto}><img src={`${process.env.REACT_APP_API}/images/users/${user.image}`} alt="" /></div>
+                        <div className={styles.leftUserName}>{user.name}</div>
                         <div className={styles.leftUserStatus}>Dev FullStack</div>
 
                     </div>
 
                     <div className={styles.leftContacts}>
 
-                        <div className={styles.leftTitle}>Meus amigos</div>
+                        <div className={styles.leftContacts}>
 
-                        <div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <button onClick={handleClick} onMouseMove={handleChange} name="newIdTalk" id="3198296471631982964716" > Rafael </button><br />
+                            <div className={styles.leftTitle}> Meus amigos</div>
 
-                        </div>
-                        <div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <button onClick={handleClick} onMouseMove={handleChange} name="newIdTalk" id="319829647163134530769" > Shara Brito </button><br />
-                        </div>
-                        <div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <div className={styles.leftContactsName}>Adriano Ferreira</div>
-                        </div>
-                        <div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <div className={styles.leftContactsName}>Flávio Gregório</div>
-                        </div>
-                        <div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <div className={styles.leftContactsName}>Flávio Gregório</div>
-                        </div>
-                        <div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <div className={styles.leftContactsName}>Flávio Gregório</div>
-                        </div>
-                        <div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <div className={styles.leftContactsName}>Flávio Gregório</div>
-                        </div><div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <div className={styles.leftContactsName}>Flávio Gregório</div>
-                        </div><div className={styles.leftContactsContainer}>
-                            <div className={styles.leftContactsPhoto}></div>
-                            <div className={styles.leftContactsName}>Flávio Gregório</div>
+                            {
+                                friends.map((itens, index) => (
+                                    <div key={index} className={styles.leftContactsContainer}  >
+                                        <div className={styles.leftContactsPhoto}><img src={`${process.env.REACT_APP_API}/images/users/${itens[2]}`} alt="" /></div>
+                                        <div className={styles.leftContactsName} key={index} onMouseMove={handleChangeTalk} onClick={handleClick} name="newIdTalk" id={itens[1]} > {itens[0]} </div><br />
+                                    </div>
+                                ))
+                            }
+
                         </div>
 
                     </div>
@@ -170,7 +167,6 @@ function ShowTalk({ idTalk }) {
                     <form autoComplete="off" onSubmit={handleSubmit}>
 
                         <Input
-
                             text="Nova mensagem"
                             type="text"
                             name="message"
@@ -185,10 +181,6 @@ function ShowTalk({ idTalk }) {
 
             </div>
 
-
-            {/* <button onClick={handleClick} onMouseMove={handleChange} name="newIdTalk" value="3134530769" > Shara Brito </button><br />
-            <button onClick={handleClick} onMouseMove={handleChange} name="newIdTalk" value="31982964717" > Adriano </button><br />
-            <button onClick={handleClick} onMouseMove={handleChange} name="newIdTalk" value="3198296471631982964716" > Rafael </button><br />  */}
         </div>
 
 

@@ -58,8 +58,6 @@ module.exports = class UserController {
             image = req.file.filename
         }
 
-        console.log(image)
-
         //Criptografando senha
         const salt = await bcrypt.genSalt(12)
         const passwordHash = await bcrypt.hash(password, salt)

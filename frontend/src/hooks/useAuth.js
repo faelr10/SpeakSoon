@@ -50,7 +50,6 @@ export default function useAuth() {
         // let msgText = "Cadastro realizado com sucesso!"
         // let msgType = 'success'
 
-
         try {
 
             //Registrar usuário  -- fazendo uma requisição para a api através da rota de registro e retornando resposta da api
@@ -62,6 +61,8 @@ export default function useAuth() {
 
             //Função para autenticar usuário no browser se o registro for feito com sucesso
             await authUser(data)
+            navigate('/dashboard')
+
 
         } catch (error) {
 
@@ -154,10 +155,17 @@ export default function useAuth() {
         
     }
 
-    async function addFriend(idFriend){
+    async function addFriend(idFriend,token){
 
         try{
-            await api.patch(`/users/newFriend/`,idFriend).then((response)=>{
+            await api.patch(`/users/newFriend/`,idFriend,
+                {
+                    headers: {
+                        Authorization: `Bearer ${JSON.parse(token)}`,
+                    },
+
+            })
+            .then((response)=>{
                 return response.data
             })
         }catch(error){

@@ -25,7 +25,7 @@ function Register() {
         e.preventDefault()
 
         const formData = new FormData()
-        const userFormData = await Object.keys(user).forEach((key)=>{
+        await Object.keys(user).forEach((key)=>{
             formData.append(key,user[key])
         })
 

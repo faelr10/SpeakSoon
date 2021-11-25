@@ -85,9 +85,25 @@ module.exports = class TalkController {
 
         const allMsg = talk.messages
         const userId = user.name
+        const userImage = user.image
+        const friends = user.friends
 
-        res.status(200).json({ message: allMsg,userId })
+
+        res.status(200).json({ message: allMsg,userId,userImage,friends,user })
         return
+
+    }
+
+    static async checkTalk(req,res){
+        const idTalk = req.params.id
+        const talk = await Talk.findOne({ idTalk: idTalk })
+
+        const allMsg = talk.messages
+
+
+        res.status(200).json({ message: allMsg })
+        return
+
 
     }
 
