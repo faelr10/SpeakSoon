@@ -155,13 +155,11 @@ module.exports = class UserController {
 
     static async dashboard(req, res) {
 
-
         const token = getToken(req)
         const userToken = await getUserByToken(token)
 
         res.status(200).json(userToken)
         return
-
     }
 
 
@@ -200,9 +198,6 @@ module.exports = class UserController {
         } else {
             res.status(200).json()
         }
-
-
-
 
         return
     }

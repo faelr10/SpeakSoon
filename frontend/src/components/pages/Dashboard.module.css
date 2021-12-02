@@ -205,10 +205,12 @@
     display: flex;
     background-color: #FFFFFF;
     width: 90%;
-    min-height: 4rem;
+    height: 4rem;
     justify-content: flex-start;
     align-items: center;
+    transition: 0.5s;
 }
+
 .leftContactsPhoto{
     width: 21%;
     height: 90%;
